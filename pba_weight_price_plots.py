@@ -22,8 +22,8 @@ plt.plot(battery_data['Capacity (Ah, 20hr rate)'], trendline(battery_data['Capac
 
 # add titles
 plt.xlabel('Battery capacity (Ah, 20hr rate)')
-plt.ylabel('Battery weight, kg')
-plt.title('Lead-acid battery weight vs capacity')
+plt.ylabel('Battery mass, kg')
+plt.title('Lead-acid battery mass vs capacity')
 
 eqn_string = "%s" % trendline 
 
