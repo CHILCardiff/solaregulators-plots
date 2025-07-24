@@ -10,6 +10,9 @@ battery_data.sort_values(by='Capacity (Ah, 20hr rate)')
 
 fig, (ax1,ax2) = plt.subplots(2, sharex=True)
 
+# y-axis scale
+ax1.set_ylim(0,43)
+
 # scatter points
 ax1.scatter(battery_data['Capacity (Ah, 20hr rate)'], battery_data['Weight (kg)'])
 
@@ -30,6 +33,9 @@ eqn_string = "%s" % trendline
 ax1.text(10, 35, ("y = %s" % eqn_string.strip()))
 
 # now price (lower panel)
+
+# y-axis scale
+ax2.set_ylim(0,350)
 
 # scatter points
 ax2.scatter(battery_data['Capacity (Ah, 20hr rate)'], battery_data['Price euro'])
@@ -52,7 +58,10 @@ eqn_string = "%s" % pricetrendline
 ax2.text(10, 300, ("y = %s" % eqn_string.strip()))
 
 # add panel labels to both plots
-ax1.text(101,0.5, "a)")
+ax1.text(101,1, "a)")
 ax2.text(101,10, "b)")
+
+# line up y-labels
+fig.align_ylabels()
 
 plt.savefig('battery_mass_price.png')
