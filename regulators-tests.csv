@@ -1,7 +1,6 @@
 ﻿Manufacturer,Model number,Technology,Approx price (EUR),Tested by,Rated current (A),Datasheet night consumption (mA),Measured night consumption (A),mA
 Campbell,PS200,MPPT,450,MPJ+LC,3.6,0.3,0.0002,0.2
-Campbell,PS100E,PWM,no longer sold,MPJ+LC,,0,0,0
-Eco Energy,ASC30W,PWM,65,MPJ,2.5,0,0.000038,0.038
+Eco Energy,ASC30W,PWM,65,MPJ,2.5,0.04,0.000038,0.038
 Genasun,GV-4 PbA,MPPT,55,Paul Carpenter,4,0.09,0.000076,0.076
 Genasun,GV-5 PbA,MPPT,70,Paul Carpenter,5,0.125,0.000114,0.114
 Genasun,GV-10 PbA,MPPT,90,MPJ,10.5,0.9,0.000938,0.938

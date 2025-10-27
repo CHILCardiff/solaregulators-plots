@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 # import regulator data
 reg_data = pd.read_csv('regulators-tests.csv')
@@ -9,26 +10,26 @@ reg_data = pd.read_csv('regulators-tests.csv')
 reg_data["Regulator under test"] = reg_data['Manufacturer'] + " " +  reg_data['Model number']
 
 # drop unnecessary columns
-reg_data.drop('Measured night consumption (A)',axis='columns', inplace=True)
-reg_data.drop('Approx price (EUR)',axis='columns', inplace=True)
+#reg_data.drop('Measured night consumption (A)',axis='columns', inplace=True)
+#reg_data.drop('Approx price (EUR)',axis='columns', inplace=True)
 
 # rename column
 reg_data.rename(columns={"mA":"Measured night consumption (mA)"}, inplace=True)
 
 # create data subset for regulators with measured consumption under 0.5mA
-small_reg_data = reg_data[reg_data['Measured night consumption (mA)'] <0.5] 
+#small_reg_data = reg_data[reg_data['Measured night consumption (mA)'] <0.5] 
 #small_reg_data_sorted = small_reg_data.sort_values(by = 'Measured night consumption (mA)')
 
 # drop unnnecessary column
-small_reg_data.drop('Rated current (A)', axis='columns', inplace=True)
+#small_reg_data.drop('Rated current (A)', axis='columns', inplace=True)
 
-print(small_reg_data)
+#print(small_reg_data)
 
-gs_kw = dict(height_ratios=[2, 1])
-fig, (ax1,ax2) = plt.subplots(nrows=2, figsize=(7,7), layout="constrained", gridspec_kw=gs_kw) # 7 x 10 inches
+#gs_kw = dict(height_ratios=[2, 1])
+#fig, (ax1,ax2) = plt.subplots(nrows=2, figsize=(7,7), layout="constrained", gridspec_kw=gs_kw) # 7 x 10 inches
 
-small_reg_data.plot.barh(x='Regulator under test', rot=0, ax=ax2, legend=False, fontsize=10, label='_nolegend')
-ax2.invert_yaxis()
+#small_reg_data.plot.barh(x='Regulator under test', rot=0, ax=ax2, legend=False, fontsize=10, label='_nolegend')
+#ax2.invert_yaxis()
 
 
 
@@ -50,7 +51,7 @@ def wrap_labels(ax, width, break_long_words=False):
 
 
 # ax.set_title('Currrent consumption of regulators rated to <4.5A')
-ax2.set_xlabel('Current, mA')
+#ax2.set_xlabel('Current, mA')
 
 # plt.savefig('small_regulators.png')
 
@@ -94,33 +95,57 @@ ax2.set_xlabel('Current, mA')
 
 
 reg_data.sort_values(by = 'Measured night consumption (mA)')
-reg_data.drop('Rated current (A)', axis='columns', inplace=True)
+#reg_data.drop('Rated current (A)', axis='columns', inplace=True)
 
 #fig2, ax3 = plt.subplots(layout='constrained', figsize=(7,5))
 
-mainplot = reg_data.plot.barh(x='Regulator under test',ax=ax1, fontsize=10, legend=False)
-ax1.invert_yaxis()
+fig, ax1 = plt.subplots()
 
-handles, labels = mainplot.get_legend_handles_labels()
 
-fig.legend(loc='outside lower right', handles=handles, labels=labels)
+sns.scatterplot(data=reg_data, ax=ax1, x='Datasheet night consumption (mA)', y='Measured night consumption (mA)', hue='Manufacturer')
+# Shrink current axis by 20%
+box = ax1.get_position()
+ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
+sns.move_legend(ax1, "upper left", bbox_to_anchor=(1, 1))
+
+# reference line
+ref_line = range(0,26)
+ax1.plot(ref_line, ref_line)
+
+# text
+
+ax1.text(10,15, "Perform worse than advertised", rotation=30)
+ax1.text(10,5, "Perform better than advertised", rotation=30)
+
+
+#add arrow annotations
+#for index, row in reg_data.iterrows():
+#    ax1.annotate(row['Regulator under test'], (row['Datasheet night consumption (mA)'], row['Measured night consumption (mA)']), arrowprops=dict(arrowstyle="->", relpos=[0,0]), fontsize='x-small', xytext=(40,-40), textcoords='offset points')
+
+
+#adjust_text(ax1)
+#ax1.invert_yaxis()
+
+#handles, labels = mainplot.get_legend_handles_labels()
+
+#fig.legend(loc='outside lower right', handles=handles, labels=labels)
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
 
 # ax.set_title('Currrent consumption of regulators rated to >9A')
-ax1.set_xlabel('Current, mA')
+#ax1.set_xlabel('Current, mA')
 
 #wrap_labels(ax1, 7)
 
 #fig2.subplots_adjust(bottom = 0.22)
 
-fig.align_labels()
+#fig.align_labels()
 
 # add panel labels to both plots
-fig.text(0.95,0.95, "a)")
-fig.text(0.95,0.17, "b)")
+#fig.text(0.95,0.95, "a)")
+#fig.text(0.95,0.17, "b)")
 
-fig.savefig('all_regulators.png', dpi=300)
+fig.savefig('measured_current_scatter.png', dpi=300)
 
 
 
